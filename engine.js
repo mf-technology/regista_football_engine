@@ -7,6 +7,9 @@ const setVariables = require('./lib/setVariables')
 const playerMovement = require('./lib/playerMovement')
 const ballMovement = require('./lib/ballMovement')
 const validate = require('./lib/validate')
+const physicsEngine = require('./lib/physicsEngine')
+const eventManager = require('./lib/eventManager')
+const gameLoop = require('./lib/gameLoop')
 
 //------------------------
 //    Functions
@@ -25,10 +28,14 @@ async function initiateGame(team1, team2, pitchDetails) {
   setPositions.switchSide(matchDetails, secondTeam)
   matchDetails.kickOffTeam = kickOffTeam
   matchDetails.secondTeam = secondTeam
+  physicsEngine.createBodies(matchDetails)
+  physicsEngine.runPhysics()
   return matchDetails
 }
 
 async function playIteration(matchDetails) {
+  const startTime = performance.now()
+
   let closestPlayerA = {
     'name': '',
     'position': 100000
@@ -52,6 +59,11 @@ async function playIteration(matchDetails) {
   }
   playerMovement.closestPlayerToBall(closestPlayerA, kickOffTeam, matchDetails)
   playerMovement.closestPlayerToBall(closestPlayerB, secondTeam, matchDetails)
+  eventManager.handleEvent('foul', matchDetails, closestPlayerA, closestPlayerB)
+  eventManager.handleEvent('penalty', matchDetails, closestPlayerA, closestPlayerB)
+  eventManager.handleEvent('corner', matchDetails)
+  eventManager.handleEvent('freeKick', matchDetails, closestPlayerA, closestPlayerB)
+  eventManager.handleEvent('offside', matchDetails, closestPlayerA)
   kickOffTeam = playerMovement.decideMovement(closestPlayerA, kickOffTeam, secondTeam, matchDetails)
   secondTeam = playerMovement.decideMovement(closestPlayerB, secondTeam, kickOffTeam, matchDetails)
   matchDetails.kickOffTeam = kickOffTeam
@@ -59,6 +71,11 @@ async function playIteration(matchDetails) {
   if (matchDetails.ball.ballOverIterations.length == 0 || matchDetails.ball.withTeam != '') {
     playerMovement.checkOffside(kickOffTeam, secondTeam, matchDetails)
   }
+
+  updateStatistics(matchDetails)
+
+  const endTime = performance.now()
+  console.log(`Oyun döngüsü süresi: ${endTime - startTime} ms`)
   return matchDetails
 }
 
@@ -80,8 +97,18 @@ async function startSecondHalf(matchDetails) {
   return matchDetails
 }
 
+async function startGame() {
+  try {
+    await initiateGame(team1, team2, pitchDetails)
+    gameLoop.run(matchDetails)
+  } catch (error) {
+    console.error('Oyun başlatılırken bir hata oluştu:', error)
+  }
+}
+
 module.exports = {
   initiateGame,
   playIteration,
-  startSecondHalf
+  startSecondHalf,
+  startGame
 }

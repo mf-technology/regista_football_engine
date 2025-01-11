@@ -40,5 +40,8 @@
     "lodash": "^4.17.21",
     "mocha": "^10.0.0",
     "nyc": "^15.1.0"
+  },
+  "dependencies": {
+    "matter-js": "^0.20.0"
   }
 }
