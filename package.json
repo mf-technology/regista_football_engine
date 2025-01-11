@@ -1,7 +1,7 @@
 {
-  "name": "footballsimulationengine",
-  "version": "4.0.0",
-  "description": "an engine for simulating football matches",
+  "name": "regista_football_engine",
+  "version": "1.0.0",
+  "description": "Regista Football Engine",
   "main": "engine.js",
   "scripts": {
     "start": "node engine.js",
@@ -11,24 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/GallagherAiden/footballSimulationEngine"
+    "url": "https://github.com/mf-technology/regista_football_engine"
   },
   "keywords": [
-    "football",
-    "football simulation",
-    "football engine",
-    "football simulation engine",
-    "soccer",
-    "soccer simulation",
-    "soccer engine",
-    "soccer simulation engine",
-    "simulation",
-    "game",
-    "football manager",
-    "footie",
-    "football management"
+    "regista"
   ],
-  "author": "Aiden Gallagher <aiden.g@live.co.uk>",
+  "author": "Ferit Arıbulan",
   "license": "ISC",
   "engines": {
     "node": ">=7.6.0"
