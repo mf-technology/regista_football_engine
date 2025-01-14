@@ -1,5 +1,5 @@
 {
-  "name": "regista_football_engine",
+  "name": "regista_football_engine_regista",
   "version": "1.0.0",
   "description": "A football simulation engine for RegistaPro",
   "main": "engine.js",
@@ -17,7 +17,7 @@
     "regista"
   ],
   "author": "Ferit Arıbulan",
-  "license": "ISC",
+  "license": "MIT",
   "engines": {
     "node": ">=7.6.0"
   },
