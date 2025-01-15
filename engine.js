@@ -20,6 +20,7 @@ async function initiateGame(team1, team2, pitchDetails) {
   validate.validateTeam(team2)
   validate.validatePitch(pitchDetails)
   let matchDetails = setVariables.populateMatchDetails(team1, team2, pitchDetails)
+  console.log(matchDetails)
   let kickOffTeam = setVariables.setGameVariables(matchDetails.kickOffTeam)
   let secondTeam = setVariables.setGameVariables(matchDetails.secondTeam)
   kickOffTeam = setVariables.koDecider(kickOffTeam, matchDetails)
@@ -77,6 +78,12 @@ async function playIteration(matchDetails) {
   const endTime = performance.now()
   console.log(`Oyun döngüsü süresi: ${endTime - startTime} ms`)
   return matchDetails
+}
+// Yeni fonksiyon eklendi
+function updateStatistics(matchDetails) {
+  // İstatistikleri güncelleme mantığı buraya eklenecek.
+  // Örneğin, gol sayısı, şut sayısı, pas sayısı vb.
+  console.log("İstatistikler güncellendi.", matchDetails);
 }
 
 async function startSecondHalf(matchDetails) {
