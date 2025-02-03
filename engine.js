@@ -79,11 +79,31 @@ async function playIteration(matchDetails) {
   console.log(`Oyun döngüsü süresi: ${endTime - startTime} ms`)
   return matchDetails
 }
-// Yeni fonksiyon eklendi
+
 function updateStatistics(matchDetails) {
-  // İstatistikleri güncelleme mantığı buraya eklenecek.
-  // Örneğin, gol sayısı, şut sayısı, pas sayısı vb.
-  console.log("İstatistikler güncellendi.", matchDetails);
+  const { kickOffTeam, secondTeam } = matchDetails
+  
+  // Temel istatistikleri güncelle
+  kickOffTeam.stats = kickOffTeam.stats || {
+    goals: 0,
+    shots: 0,
+    passes: 0,
+    possession: 0
+  }
+  
+  secondTeam.stats = secondTeam.stats || {
+    goals: 0,
+    shots: 0,
+    passes: 0,
+    possession: 0
+  }
+  
+  // Top hangi takımdaysa possession'ı güncelle
+  if (matchDetails.ball.withTeam === kickOffTeam.name) {
+    kickOffTeam.stats.possession++
+  } else if (matchDetails.ball.withTeam === secondTeam.name) {
+    secondTeam.stats.possession++
+  }
 }
 
 async function startSecondHalf(matchDetails) {
@@ -104,12 +124,13 @@ async function startSecondHalf(matchDetails) {
   return matchDetails
 }
 
-async function startGame() {
+async function startGame(team1, team2, pitchDetails) {
   try {
-    await initiateGame(team1, team2, pitchDetails)
-    gameLoop.run(matchDetails)
+    const matchDetails = await initiateGame(team1, team2, pitchDetails)
+    return gameLoop.run(matchDetails)
   } catch (error) {
     console.error('Oyun başlatılırken bir hata oluştu:', error)
+    throw error
   }
 }
 
