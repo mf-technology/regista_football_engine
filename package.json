@@ -1,6 +1,6 @@
 {
   "name": "regista_football_engine_regista",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A football simulation engine for RegistaPro",
   "main": "engine.js",
   "scripts": {

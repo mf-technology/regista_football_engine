@@ -30,7 +30,7 @@ async function initiateGame(team1, team2, pitchDetails) {
   matchDetails.kickOffTeam = kickOffTeam
   matchDetails.secondTeam = secondTeam
   physicsEngine.createBodies(matchDetails)
-  physicsEngine.runPhysics()
+  physicsEngine.runPhysics(matchDetails)
   return matchDetails
 }
 
